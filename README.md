@@ -21,3 +21,5 @@ odoo.conf reviewed and understood
 No errors or traceback in logs
 
 Screenshots taken (repo, clone, project, venv, run config, server, developer mode, technical menu)
+
+writing these just to check some changes and working flow of git 

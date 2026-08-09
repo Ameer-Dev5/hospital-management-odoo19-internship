@@ -23,3 +23,6 @@ No errors or traceback in logs
 Screenshots taken (repo, clone, project, venv, run config, server, developer mode, technical menu)
 
 writing these just to check some changes and working flow of git 
+
+This README has been updated with the latest project changes, including improved structure, clearer explanations,
+and additional details to better represent the work completed during the internship.

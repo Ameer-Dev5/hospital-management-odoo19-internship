@@ -119,3 +119,113 @@ Browser updates the UI
 **Development note:** Odoo core files (`odoo/`, `addons/`) are never modified directly. Custom work stays isolated in a separate addons path (e.g. `custom_addons/`) so upgrades to Odoo core don't break custom modules.
 
 **Screenshots:** see `screenshots/day3/` for the source tree exploration.
+
+# Hospital Base Module Architecture
+
+## 1. Module Purpose
+
+Explain what `hospital_base` is and why it was created.
+
+## 2. Module Location
+
+Explain that the module is located inside:
+
+`custom_addons/hospital_base`
+
+## 3. Module Structure
+
+Show:
+
+custom_addons/
+└── hospital_base/
+    ├── __init__.py
+    └── __manifest__.py
+
+## 4. Module Dependencies
+
+Explain that the module depends on:
+
+`base`
+
+Explain why `base` is required.
+
+## 5. __manifest__.py
+
+Explain:
+- Module name
+- Version
+- Summary
+- Category
+- Author
+- License
+- Dependencies
+- Data
+
+## 6. __init__.py
+
+Explain its purpose and that it is currently minimal because the module has no Python components yet.
+
+## 7. Addons Path
+
+Document the custom addons path:
+
+`/home/ameer/hospital-management-odoo19-internship/custom_addons`
+
+## 8. Installation Process
+
+Explain:
+1. Odoo scans the addons path.
+2. `hospital_base` is discovered.
+3. Apps List is updated.
+4. Module is installed.
+5. Odoo loads the module.
+
+## 9. Upgrade Process
+
+Explain:
+1. Make a change to the module.
+2. Upgrade the module.
+3. Odoo reloads the module.
+4. The changes are applied.
+
+## 10. Command-Line Options
+
+### -i
+Used to install a module.
+
+Example:
+
+`-i hospital_base`
+
+### -u
+Used to upgrade an already installed module.
+
+Example:
+
+`-u hospital_base`
+
+## 11. Module Loading
+
+Odoo
+↓
+Addons Path
+↓
+hospital_base
+↓
+__manifest__.py
+↓
+__init__.py
+↓
+Module Loaded
+
+## 12. Verification
+
+Document that:
+- The module appeared in Apps.
+- The module was installed.
+- The module was upgraded successfully.
+- The server logs showed `hospital_base` loading successfully.
+
+## 13. Errors Encountered
+
+Document the addons-path problem you encountered and how it was resolved.

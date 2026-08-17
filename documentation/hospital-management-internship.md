@@ -250,3 +250,48 @@ Detailed write-ups for each topic live under [`documentation/architecture/`](doc
 ## Author
 
 **Ameer Nawaz** — Odoo Technical Intern
+
+Section A – Module Development
+
+1. What is an Odoo custom module?
+An Odoo custom module is a package developed by a developer to add new features or modify existing Odoo functionality. For example, a clinic_patient module can add patient management features to Odoo.
+
+2. Why should custom modules be separated from Odoo core?
+Custom modules should be separate so that Odoo core files remain unchanged. This makes upgrades easier, prevents custom code from being overwritten, and keeps the project organized and maintainable.
+
+3. What is the purpose of __manifest__.py?
+__manifest__.py is the configuration file of an Odoo module. It tells Odoo important information about the module, such as its name, version, dependencies, and data files.
+
+4. What is the purpose of __init__.py?
+__init__.py tells Python that a directory is a Python package and is used to import the module's Python files. In Odoo, it commonly imports files such as models and controllers.
+
+5. What is the difference between a Python package and an Odoo module?
+A Python package is a general collection of Python code organized into a package. An Odoo module is a specialized package that follows Odoo's structure and includes Odoo-specific files such as __manifest__.py to define its functionality.
+
+6. What information is normally defined in __manifest__.py?
+It normally contains:
+
+Module name
+Version
+Description
+Author
+Category
+Dependencies
+Data files
+Demo files
+License
+Installable status
+Application status
+
+7. What is the purpose of the depends key?
+The depends key specifies the Odoo modules that must be installed before the current module can work. For example, if a module uses features from base, base is included in depends.
+
+8. What happens when an Odoo module is installed?
+Odoo reads the module manifest, checks its dependencies, loads its Python code, creates or updates database structures, and loads XML/CSV data such as views, menus, security rules, and records.
+
+9. What is the difference between installing and upgrading a module?
+Installing a module means adding it to Odoo for the first time.
+Upgrading a module means applying changes made to an already installed module, such as updated Python code, views, fields, or data.
+
+10. What happens if an Odoo module contains an invalid manifest or Python syntax error?
+Odoo cannot properly load the module. An invalid manifest can prevent the module from being recognized or installed, while a Python syntax error usually causes an error during module loading or server startup. The error is shown in the Odoo log so the developer can fix it.

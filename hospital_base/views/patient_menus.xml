@@ -7,19 +7,11 @@
     />
 
     <menuitem
-        id="menu_hospital_configuration"
-        name="Configurations"
-        parent="menu_hospital_root"
-        action="action_hospital_configuration"
-        sequence="20"
-    />
-
-    <menuitem
         id="menu_hospital_patients"
         name="Patients"
         parent="menu_hospital_root"
         action="action_hospital_patients"
-        sequence="30"
+        sequence="20"
     />
 
 </odoo>

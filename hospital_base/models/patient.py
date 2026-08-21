@@ -122,3 +122,139 @@ class HospitalPatient(models.Model):
         found.unlink()
 
         return total
+
+    def action_domain_search_examples(self):
+        Patient = self.env['hospital.patient']
+
+        male_patients = Patient.search([('gender', '=', 'male')])
+        non_male = Patient.search([('gender', '!=', 'male')])
+        adults = Patient.search([('age', '>', 18)])
+        young_patients = Patient.search([('age', '<=', 12)])
+        name_like = Patient.search([('name', 'like', 'Ali')])
+        name_ilike = Patient.search([('name', 'ilike', 'ali')])
+        specific_refs = Patient.search([('ref', 'in', ['PAT-001', 'PAT-002'])])
+        excluded_refs = Patient.search([('ref', 'not in', ['PAT-DEMO'])])
+
+        adult_males = Patient.search([
+            ('gender', '=', 'male'),
+            ('age', '>=', 18),
+        ])
+
+        male_or_female = Patient.search([
+            '|',
+            ('gender', '=', 'male'),
+            ('gender', '=', 'female'),
+        ])
+
+        not_female = Patient.search([
+            '!', ('gender', '=', 'female'),
+        ])
+
+        active_known_gender = Patient.search([
+            ('active', '=', True),
+            '|',
+            ('gender', '=', 'male'),
+            ('gender', '=', 'female'),
+        ])
+
+        return {
+            'male_patients': male_patients,
+            'non_male': non_male,
+            'adults': adults,
+            'young_patients': young_patients,
+            'name_like': name_like,
+            'name_ilike': name_ilike,
+            'specific_refs': specific_refs,
+            'excluded_refs': excluded_refs,
+            'adult_males': adult_males,
+            'male_or_female': male_or_female,
+            'not_female': not_female,
+            'active_known_gender': active_known_gender,
+        }
+
+    def action_filtered_examples(self):
+        patients = self.env['hospital.patient'].search([])
+
+        active_patients = patients.filtered(lambda p: p.active)
+        adult_patients = patients.filtered(lambda p: p.age >= 18)
+        adult_male_patients = patients.filtered(
+            lambda p: p.age >= 18 and p.gender == 'male'
+        )
+
+        return active_patients, adult_patients, adult_male_patients
+
+    def action_mapped_examples(self):
+        patients = self.env['hospital.patient'].search([])
+
+        names = patients.mapped('name')
+        ages = patients.mapped('age')
+        genders = patients.mapped('gender')
+
+        return names, ages, genders
+
+    def action_sorted_examples(self):
+        patients = self.env['hospital.patient'].search([])
+
+        by_age_asc = patients.sorted(key=lambda p: p.age)
+        by_name_desc = patients.sorted(key=lambda p: p.name, reverse=True)
+
+        return by_age_asc, by_name_desc
+
+    def action_ensure_one_demo(self):
+        self.ensure_one()
+        return "Single patient confirmed: %s" % self.name
+
+    def action_test_ensure_one(self):
+        Patient = self.env['hospital.patient']
+        all_patients = Patient.search([])
+
+        result_one = None
+        if all_patients:
+            single = all_patients[0]
+            result_one = single.action_ensure_one_demo()
+
+        result_many = None
+        try:
+            all_patients.action_ensure_one_demo()
+            result_many = 'Unexpectedly succeeded'
+        except ValueError as e:
+            result_many = 'Raised as expected: %s' % e
+
+        return result_one, result_many
+
+    def action_inspect_environment(self):
+        user = self.env.user
+        company = self.env.company
+        context = self.env.context
+        Patient = self.env['hospital.patient']
+
+        return {
+            'user_name': user.name,
+            'user_login': user.login,
+            'company_name': company.name,
+            'context_keys': list(context.keys()),
+            'patient_model_name': Patient._name,
+        }
+
+    def action_analyze_patients(self):
+        Patient = self.env['hospital.patient']
+
+        patients = Patient.search([('active', '=', True)])
+        adult_patients = patients.filtered(lambda p: p.age >= 18)
+        patient_names = adult_patients.mapped('name')
+        sorted_patients = adult_patients.sorted(key=lambda p: p.age, reverse=True)
+
+        oldest_name = None
+        if sorted_patients:
+            oldest = sorted_patients[0]
+            oldest.ensure_one()
+            oldest_name = oldest.name
+
+        return {
+            'patients_type': type(patients),
+            'adult_patients_type': type(adult_patients),
+            'patient_names_type': type(patient_names),
+            'sorted_patients_type': type(sorted_patients),
+            'patient_names': patient_names,
+            'oldest_patient': oldest_name,
+        }

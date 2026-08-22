@@ -14,4 +14,12 @@
         sequence="20"
     />
 
+    <menuitem
+        id="menu_hospital_doctors"
+        name="Doctors"
+        parent="menu_hospital_root"
+        action="action_hospital_doctor"
+        sequence="30"
+    />
+
 </odoo>

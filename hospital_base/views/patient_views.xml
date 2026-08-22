@@ -27,6 +27,8 @@
                         <field name="name"/>
                         <field name="gender"/>
                         <field name="dob"/>
+                        <field name="doctor_id"/>
+                        <field name="doctor_ids" widget="many2many_tags"/>
                     </group>
 
                     <group string="Contact Information">

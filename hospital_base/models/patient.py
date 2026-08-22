@@ -258,3 +258,14 @@ class HospitalPatient(models.Model):
             'patient_names': patient_names,
             'oldest_patient': oldest_name,
         }
+
+    doctor_id = fields.Many2one(
+        'hospital.doctor',
+        string='Primary Doctor',
+        ondelete='set null'
+    )
+
+    doctor_ids = fields.Many2many(
+        'hospital.doctor',
+        string='Treating Doctors'
+    )

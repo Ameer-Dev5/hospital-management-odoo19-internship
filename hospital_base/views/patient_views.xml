@@ -39,6 +39,9 @@
 
                     <group string="Other Information">
                         <field name="age"/>
+                        <field name="age_group"/>
+                        <field name="doctor_specialization"/>
+                        <field name="registration_date"/>
                         <field name="active"/>
                         <field name="notes"/>
                     </group>

@@ -1,5 +1,5 @@
-from odoo import models, fields
-
+from datetime import date
+from odoo import api, models, fields
 
 class HospitalPatient(models.Model):
     _name = 'hospital.patient'
@@ -26,6 +26,22 @@ class HospitalPatient(models.Model):
     age = fields.Integer(
         string='Age',
         help='Enter the patient age in years.'
+    )
+
+    age_group = fields.Char(
+        string='Age Group',
+        compute='_compute_age_group',
+        store=True,
+    )
+
+    doctor_specialization = fields.Char(
+        string='Doctor Specialization',
+        related='doctor_id.specialization',
+    )
+
+    registration_date = fields.Date(
+        string='Registration Date',
+        default=lambda self: fields.Date.today(),
     )
 
     gender = fields.Selection(
@@ -269,3 +285,23 @@ class HospitalPatient(models.Model):
         'hospital.doctor',
         string='Treating Doctors'
     )
+
+    @api.depends('dob')
+    def _compute_age(self):
+        for record in self:
+            if record.dob:
+                today = date.today()
+                record.age = today.year - record.dob.year - (
+                        (today.month, today.day) <
+                        (record.dob.month, record.dob.day)
+                )
+            else:
+                record.age = 0
+
+    @api.depends('age')
+    def _compute_age_group(self):
+        for record in self:
+            if record.age < 18:
+                record.age_group = 'Minor'
+            else:
+                record.age_group = 'Adult'

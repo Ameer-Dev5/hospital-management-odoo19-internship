@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <odoo>
 
     <record id="view_hospital_patient_list" model="ir.ui.view">
@@ -55,6 +57,7 @@
         <field name="name">Patients</field>
         <field name="res_model">hospital.patient</field>
         <field name="view_mode">list,form</field>
+        <field name="context">{'default_gender': 'male'}</field>
     </record>
 
 </odoo>

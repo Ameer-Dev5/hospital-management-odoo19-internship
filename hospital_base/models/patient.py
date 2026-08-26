@@ -1,5 +1,7 @@
 from datetime import date
-from odoo import api, models, fields
+
+from odoo import api, fields, models
+
 
 class HospitalPatient(models.Model):
     _name = 'hospital.patient'
@@ -25,7 +27,9 @@ class HospitalPatient(models.Model):
 
     age = fields.Integer(
         string='Age',
-        help='Enter the patient age in years.'
+        compute='_compute_age',
+        store=True,
+        help='Patient age in years.'
     )
 
     age_group = fields.Char(
@@ -50,7 +54,8 @@ class HospitalPatient(models.Model):
             ('female', 'Female'),
             ('other', 'Other'),
         ],
-        string='Gender'
+        string='Gender',
+        default=lambda self: self.env.context.get('default_gender') or False,
     )
 
     phone = fields.Char(
@@ -78,13 +83,95 @@ class HospitalPatient(models.Model):
         help='Additional notes about the patient.'
     )
 
+    doctor_id = fields.Many2one(
+        'hospital.doctor',
+        string='Primary Doctor',
+        ondelete='set null',
+        domain=[('active', '=', True)],
+    )
+
+    doctor_ids = fields.Many2many(
+        'hospital.doctor',
+        string='Treating Doctors',
+        domain=[('active', '=', True)],
+    )
+
+    @api.depends('dob')
+    def _compute_age(self):
+        for record in self:
+            if record.dob:
+                today = date.today()
+                record.age = today.year - record.dob.year - (
+                        (today.month, today.day)
+                        < (record.dob.month, record.dob.day)
+                )
+            else:
+                record.age = 0
+
+    @api.depends('age')
+    def _compute_age_group(self):
+        for record in self:
+            if record.age < 18:
+                record.age_group = 'Minor'
+            else:
+                record.age_group = 'Adult'
+
+    @api.onchange('doctor_id')
+    def _onchange_doctor_id(self):
+        if self.doctor_id:
+            self.doctor_ids = [(6, 0, [self.doctor_id.id])]
+            self.notes = f'Primary Doctor: {self.doctor_id.name}'
+        else:
+            self.doctor_ids = [(5, 0, 0)]
+            self.notes = False
+
+    @api.onchange('dob')
+    def _onchange_dob(self):
+        domain = [('active', '=', True)]
+
+        if self.dob:
+            today = fields.Date.today()
+            age = today.year - self.dob.year - (
+                    (today.month, today.day)
+                    < (self.dob.month, self.dob.day)
+            )
+
+            if age < 18:
+                domain.append(('specialization', '!=', False))
+
+        return {
+            'domain': {
+                'doctor_id': domain,
+            }
+        }
+
     def action_create_demo_patients(self):
         Patient = self.env['hospital.patient']
-        Patient.create({'name': 'Ali Raza', 'ref': 'PAT-001', 'age': 30, 'gender': 'male'})
-        Patient.create({'name': 'Sana Khan', 'ref': 'PAT-002', 'age': 25, 'gender': 'female'})
+        Patient.create({
+            'name': 'Ali Raza',
+            'ref': 'PAT-001',
+            'age': 30,
+            'gender': 'male'
+        })
+        Patient.create({
+            'name': 'Sana Khan',
+            'ref': 'PAT-002',
+            'age': 25,
+            'gender': 'female'
+        })
         Patient.create([
-            {'name': 'Bilal Ahmed', 'ref': 'PAT-003', 'age': 40, 'gender': 'male'},
-            {'name': 'Ayesha Noor', 'ref': 'PAT-004', 'age': 22, 'gender': 'female'},
+            {
+                'name': 'Bilal Ahmed',
+                'ref': 'PAT-003',
+                'age': 40,
+                'gender': 'male'
+            },
+            {
+                'name': 'Ayesha Noor',
+                'ref': 'PAT-004',
+                'age': 22,
+                'gender': 'female'
+            },
         ])
 
     def action_read_demo_patients(self):
@@ -117,19 +204,24 @@ class HospitalPatient(models.Model):
     def action_count_and_browse_demo(self):
         Patient = self.env['hospital.patient']
         count = Patient.search_count([('gender', '=', 'female')])
-        patient = Patient.browse(1)  # use a real existing ID
+        patient = Patient.browse(1)
         exists = patient.exists()
         return count, patient, exists
 
     def action_orm_demo(self):
         Patient = self.env['hospital.patient']
 
-        new_patient = Patient.create({'name': 'Demo Patient', 'ref': 'PAT-DEMO', 'age': 28, 'gender': 'male'})
+        new_patient = Patient.create({
+            'name': 'Demo Patient',
+            'ref': 'PAT-DEMO',
+            'age': 28,
+            'gender': 'male'
+        })
 
         found = Patient.search([('ref', '=', 'PAT-DEMO')])
 
-        for p in found:
-            print(p.name, p.age)
+        for patient in found:
+            print(patient.name, patient.age)
 
         found.write({'age': 29})
 
@@ -148,8 +240,12 @@ class HospitalPatient(models.Model):
         young_patients = Patient.search([('age', '<=', 12)])
         name_like = Patient.search([('name', 'like', 'Ali')])
         name_ilike = Patient.search([('name', 'ilike', 'ali')])
-        specific_refs = Patient.search([('ref', 'in', ['PAT-001', 'PAT-002'])])
-        excluded_refs = Patient.search([('ref', 'not in', ['PAT-DEMO'])])
+        specific_refs = Patient.search([
+            ('ref', 'in', ['PAT-001', 'PAT-002'])
+        ])
+        excluded_refs = Patient.search([
+            ('ref', 'not in', ['PAT-DEMO'])
+        ])
 
         adult_males = Patient.search([
             ('gender', '=', 'male'),
@@ -163,7 +259,8 @@ class HospitalPatient(models.Model):
         ])
 
         not_female = Patient.search([
-            '!', ('gender', '=', 'female'),
+            '!',
+            ('gender', '=', 'female'),
         ])
 
         active_known_gender = Patient.search([
@@ -212,7 +309,10 @@ class HospitalPatient(models.Model):
         patients = self.env['hospital.patient'].search([])
 
         by_age_asc = patients.sorted(key=lambda p: p.age)
-        by_name_desc = patients.sorted(key=lambda p: p.name, reverse=True)
+        by_name_desc = patients.sorted(
+            key=lambda p: p.name,
+            reverse=True
+        )
 
         return by_age_asc, by_name_desc
 
@@ -225,11 +325,13 @@ class HospitalPatient(models.Model):
         all_patients = Patient.search([])
 
         result_one = None
+
         if all_patients:
             single = all_patients[0]
             result_one = single.action_ensure_one_demo()
 
         result_many = None
+
         try:
             all_patients.action_ensure_one_demo()
             result_many = 'Unexpectedly succeeded'
@@ -258,9 +360,13 @@ class HospitalPatient(models.Model):
         patients = Patient.search([('active', '=', True)])
         adult_patients = patients.filtered(lambda p: p.age >= 18)
         patient_names = adult_patients.mapped('name')
-        sorted_patients = adult_patients.sorted(key=lambda p: p.age, reverse=True)
+        sorted_patients = adult_patients.sorted(
+            key=lambda p: p.age,
+            reverse=True
+        )
 
         oldest_name = None
+
         if sorted_patients:
             oldest = sorted_patients[0]
             oldest.ensure_one()
@@ -274,34 +380,3 @@ class HospitalPatient(models.Model):
             'patient_names': patient_names,
             'oldest_patient': oldest_name,
         }
-
-    doctor_id = fields.Many2one(
-        'hospital.doctor',
-        string='Primary Doctor',
-        ondelete='set null'
-    )
-
-    doctor_ids = fields.Many2many(
-        'hospital.doctor',
-        string='Treating Doctors'
-    )
-
-    @api.depends('dob')
-    def _compute_age(self):
-        for record in self:
-            if record.dob:
-                today = date.today()
-                record.age = today.year - record.dob.year - (
-                        (today.month, today.day) <
-                        (record.dob.month, record.dob.day)
-                )
-            else:
-                record.age = 0
-
-    @api.depends('age')
-    def _compute_age_group(self):
-        for record in self:
-            if record.age < 18:
-                record.age_group = 'Minor'
-            else:
-                record.age_group = 'Adult'

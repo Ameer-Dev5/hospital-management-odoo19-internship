@@ -1,5 +1,7 @@
 from datetime import date
 from odoo import api, models, fields
+from odoo.exceptions import ValidationError, UserError
+
 
 class HospitalPatient(models.Model):
     _name = 'hospital.patient'
@@ -71,6 +73,22 @@ class HospitalPatient(models.Model):
     active = fields.Boolean(
         string='Active',
         default=True
+    )
+
+    state = fields.Selection(
+        [
+            ('draft', 'Draft'),
+            ('active', 'Active'),
+            ('archived', 'Archived'),
+        ],
+        string='Status',
+        default='draft',
+        required=True
+    )
+
+    doctor_count = fields.Integer(
+        string='Doctors',
+        compute='_compute_doctor_count'
     )
 
     notes = fields.Text(
@@ -305,3 +323,49 @@ class HospitalPatient(models.Model):
                 record.age_group = 'Minor'
             else:
                 record.age_group = 'Adult'
+
+    @api.constrains('dob')
+    def _check_date_of_birth(self):
+        for record in self:
+            if record.dob and record.dob > fields.Date.today():
+                raise ValidationError('Date of birth cannot be in the future.')
+
+    def action_validate_patient(self):
+        self.ensure_one()
+
+        if not self.dob:
+            raise UserError('Please set the patient date of birth before validation.')
+
+        return True
+
+    _sql_constraints = [
+        (
+            'unique_patient_ref',
+            'UNIQUE(ref)',
+            'Patient reference must be unique.'
+        ),
+    ]
+
+    @api.depends('doctor_ids')
+    def _compute_doctor_count(self):
+        for record in self:
+            record.doctor_count = len(record.doctor_ids)
+
+    def action_activate(self):
+        self.write({'state': 'active'})
+
+    def action_archive(self):
+        self.write({'state': 'archived'})
+
+    def action_reset_to_draft(self):
+        self.write({'state': 'draft'})
+
+    def action_open_doctors(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Treating Doctors',
+            'res_model': 'hospital.doctor',
+            'view_mode': 'list,form',
+            'domain': [('id', 'in', self.doctor_ids.ids)],
+        }

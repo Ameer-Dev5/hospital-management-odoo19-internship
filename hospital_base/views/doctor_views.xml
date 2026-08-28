@@ -22,22 +22,42 @@
         <field name="model">hospital.doctor</field>
         <field name="arch" type="xml">
             <form>
+
                 <sheet>
+
+                    <div class="oe_button_box" name="button_box">
+
+                        <button
+                                name="action_open_patients"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-users"
+                                invisible="patient_count == 0"
+                        >
+                            <field
+                                    name="patient_count"
+                                    widget="statinfo"
+                            />
+                        </button>
+
+                    </div>
+
                     <group>
-                        <group>
+                        <group string="Doctor Information">
                             <field name="name"/>
                             <field name="license_ref"/>
                             <field name="specialization"/>
                         </group>
 
-                        <group>
-                            <field name="phone"/>
-                            <field name="email"/>
+                        <group string="Contact Information">
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
                             <field name="active"/>
                         </group>
                     </group>
 
                     <notebook>
+
                         <page string="Patients">
                             <field name="patient_ids">
                                 <list>
@@ -48,8 +68,18 @@
                                 </list>
                             </field>
                         </page>
+
+                        <page string="Professional Information">
+                            <group>
+                                <field name="license_ref"/>
+                                <field name="specialization"/>
+                            </group>
+                        </page>
+
                     </notebook>
+
                 </sheet>
+
             </form>
         </field>
     </record>

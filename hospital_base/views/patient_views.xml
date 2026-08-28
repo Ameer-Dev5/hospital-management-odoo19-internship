@@ -20,31 +20,99 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <form>
+
+                <header>
+
+                    <button
+                            name="action_activate"
+                            type="object"
+                            string="Activate"
+                            invisible="state != 'draft'"
+                    />
+
+                    <button
+                            name="action_archive"
+                            type="object"
+                            string="Archive"
+                            invisible="state != 'active'"
+                    />
+
+                    <button
+                            name="action_reset_to_draft"
+                            type="object"
+                            string="Reset to Draft"
+                            invisible="state != 'archived'"
+                    />
+
+                    <field name="state" widget="statusbar"/>
+
+                </header>
+
                 <sheet>
 
+                    <div class="oe_button_box" name="button_box">
+
+                        <button
+                                name="action_open_doctors"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-user-md"
+                                invisible="doctor_count == 0"
+                        >
+                            <field
+                                    name="doctor_count"
+                                    widget="statinfo"
+                            />
+                        </button>
+
+                    </div>
+
                     <group string="Patient Information">
-                        <field name="ref"/>
-                        <field name="name"/>
-                        <field name="gender"/>
-                        <field name="dob"/>
-                        <field name="doctor_id"/>
-                        <field name="doctor_ids" widget="many2many_tags"/>
+                        <group>
+                            <field name="ref"/>
+                            <field name="name"/>
+                            <field name="gender"/>
+                        </group>
+
+                        <group>
+                            <field name="dob"/>
+                            <field name="age"/>
+                            <field name="age_group"/>
+                        </group>
                     </group>
 
-                    <group string="Contact Information">
-                        <field name="phone"/>
-                        <field name="email"/>
-                        <field name="address"/>
-                    </group>
+                    <notebook>
 
-                    <group string="Other Information">
-                        <field name="age"/>
-                        <field name="age_group"/>
-                        <field name="doctor_specialization"/>
-                        <field name="registration_date"/>
-                        <field name="active"/>
-                        <field name="notes"/>
-                    </group>
+                        <page string="Contact Information">
+                            <group>
+                                <group>
+                                    <field name="phone" widget="phone"/>
+                                    <field name="email" widget="email"/>
+                                </group>
+
+                                <group>
+                                    <field name="address"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Medical Information">
+                            <group>
+                                <field name="doctor_id"/>
+                                <field name="doctor_specialization"/>
+                                <field name="doctor_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+
+                        <page string="Additional Information">
+                            <group>
+                                <field name="registration_date"/>
+                                <field name="active"/>
+                                <field name="notes"/>
+                            </group>
+                        </page>
+
+                    </notebook>
 
                 </sheet>
             </form>

@@ -84,10 +84,70 @@
         </field>
     </record>
 
+    <record id="view_hospital_doctor_search" model="ir.ui.view">
+        <field name="name">hospital.doctor.search</field>
+        <field name="model">hospital.doctor</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="license_ref"/>
+                <field name="specialization"/>
+                <field name="phone"/>
+                <field name="email"/>
+
+                <filter
+                        name="active_doctors"
+                        string="Active Doctors"
+                        domain="[('active', '=', True)]"
+                />
+
+                <filter
+                        name="inactive_doctors"
+                        string="Inactive Doctors"
+                        domain="[('active', '=', False)]"
+                />
+
+                <filter
+                        name="doctors_with_patients"
+                        string="Doctors with Patients"
+                        domain="[('patient_ids', '!=', False)]"
+                />
+
+                <filter
+                        name="doctors_without_patients"
+                        string="Doctors without Patients"
+                        domain="[('patient_ids', '=', False)]"
+                />
+
+                <filter
+                        name="specialists"
+                        string="Specialized Doctors"
+                        domain="[('specialization', '!=', False)]"
+                />
+
+                <group string="Group By">
+                    <filter
+                            name="group_by_specialization"
+                            string="Specialization"
+                            context="{'group_by': 'specialization'}"
+                    />
+
+                    <filter
+                            name="group_by_active"
+                            string="Status"
+                            context="{'group_by': 'active'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="action_hospital_doctor" model="ir.actions.act_window">
         <field name="name">Doctors</field>
         <field name="res_model">hospital.doctor</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_hospital_doctor_search"/>
+
     </record>
 
 </odoo>

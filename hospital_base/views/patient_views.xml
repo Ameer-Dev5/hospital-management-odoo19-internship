@@ -119,10 +119,76 @@
         </field>
     </record>
 
+    <record id="view_hospital_patient_search" model="ir.ui.view">
+        <field name="name">hospital.patient.search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="ref"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="doctor_id"/>
+                <field name="doctor_ids"/>
+
+                <filter
+                        name="active_patients"
+                        string="Active Patients"
+                        domain="[('state', '=', 'active')]"
+                />
+                <filter
+                        name="inactive_patients"
+                        string="Inactive Patients"
+                        domain="[('state', '=', 'archived')]"
+                />
+                <filter
+                        name="patients_with_doctor"
+                        string="Patients with Doctor"
+                        domain="[('doctor_id', '!=', False)]"
+                />
+                <filter
+                        name="patients_without_doctor"
+                        string="Patients without Doctor"
+                        domain="[('doctor_id', '=', False)]"
+                />
+                <filter
+                        name="draft_patients"
+                        string="Draft Patients"
+                        domain="[('state', '=', 'draft')]"
+                />
+
+                <group string="Group By">
+                    <filter
+                            name="group_by_doctor"
+                            string="Primary Doctor"
+                            context="{'group_by': 'doctor_id'}"
+                    />
+                    <filter
+                            name="group_by_gender"
+                            string="Gender"
+                            context="{'group_by': 'gender'}"
+                    />
+                    <filter
+                            name="group_by_state"
+                            string="Status"
+                            context="{'group_by': 'state'}"
+                    />
+                </group>
+
+                <searchpanel>
+                    <field name="doctor_id"/>
+                    <field name="gender"/>
+                    <field name="state"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
     <record id="action_hospital_patients" model="ir.actions.act_window">
         <field name="name">Patients</field>
         <field name="res_model">hospital.patient</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_hospital_patient_search"/>
     </record>
 
 </odoo>

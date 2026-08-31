@@ -11,6 +11,8 @@
         "views/patient_views.xml",
         "views/doctor_views.xml",
         "views/patient_menus.xml",
+        'views/patient_report_templates.xml',
+        'views/patient_report.xml',
     ],
     "installable": True,
     "application": True,

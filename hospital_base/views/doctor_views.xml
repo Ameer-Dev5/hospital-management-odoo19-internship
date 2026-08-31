@@ -125,7 +125,7 @@
                         domain="[('specialization', '!=', False)]"
                 />
 
-                <group string="Group By">
+                <group>
                     <filter
                             name="group_by_specialization"
                             string="Specialization"

@@ -129,7 +129,6 @@
                 <field name="phone"/>
                 <field name="email"/>
                 <field name="doctor_id"/>
-                <field name="doctor_ids"/>
 
                 <filter
                         name="active_patients"
@@ -157,7 +156,7 @@
                         domain="[('state', '=', 'draft')]"
                 />
 
-                <group string="Group By">
+                <group>
                     <filter
                             name="group_by_doctor"
                             string="Primary Doctor"

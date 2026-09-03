@@ -369,3 +369,30 @@ class HospitalPatient(models.Model):
             'view_mode': 'list,form',
             'domain': [('id', 'in', self.doctor_ids.ids)],
         }
+
+    def _cron_update_patients(self, limit=300):
+        today = fields.Date.today()
+
+        patients = self.search(
+            [('dob', '!=', False)],
+            limit=limit,
+            order='id',
+        )
+
+        for patient in patients:
+            new_age = today.year - patient.dob.year - (
+                    (today.month, today.day) < (patient.dob.month, patient.dob.day)
+            )
+
+            if patient.age != new_age:
+                patient.write({'age': new_age})
+
+        remaining = self.search_count([
+            ('dob', '!=', False),
+            ('id', '>', patients[-1].id),
+        ]) if patients else 0
+
+        self.env['ir.cron']._commit_progress(
+            len(patients),
+            remaining=remaining,
+        )

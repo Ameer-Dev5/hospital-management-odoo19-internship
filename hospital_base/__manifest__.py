@@ -13,6 +13,7 @@
         "views/patient_menus.xml",
         'views/patient_report_templates.xml',
         'views/patient_report.xml',
+        'data/patient_cron.xml',
     ],
     "installable": True,
     "application": True,

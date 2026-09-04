@@ -7,7 +7,9 @@
     "license": "LGPL-3",
     "depends": ["base"],
     "data": [
-        "security/ir.model.access.csv",
+        'security/hospital_groups.xml',
+        'security/ir.model.access.csv',
+        'security/hospital_rules.xml'
         "views/patient_views.xml",
         "views/doctor_views.xml",
         "views/patient_menus.xml",

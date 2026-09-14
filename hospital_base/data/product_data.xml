@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_category_hospital" model="product.category">
+        <field name="name">Hospital</field>
+    </record>
+
+    <record id="product_category_medicines" model="product.category">
+        <field name="name">Medicines</field>
+        <field name="parent_id" ref="product_category_hospital"/>
+    </record>
+
+    <record id="product_category_medical_services" model="product.category">
+        <field name="name">Medical Services</field>
+        <field name="parent_id" ref="product_category_hospital"/>
+    </record>
+
+    <record id="product_medicine_paracetamol" model="product.template">
+        <field name="name">Paracetamol</field>
+        <field name="default_code">MED-PARA</field>
+        <field name="categ_id" ref="product_category_medicines"/>
+        <field name="type">consu</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="list_price">50.0</field>
+        <field name="standard_price">30.0</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">True</field>
+    </record>
+
+    <record id="product_medicine_amoxicillin" model="product.template">
+        <field name="name">Amoxicillin</field>
+        <field name="default_code">MED-AMOX</field>
+        <field name="categ_id" ref="product_category_medicines"/>
+        <field name="type">consu</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="list_price">120.0</field>
+        <field name="standard_price">80.0</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">True</field>
+    </record>
+
+    <record id="product_medicine_ibuprofen" model="product.template">
+        <field name="name">Ibuprofen</field>
+        <field name="default_code">MED-IBUP</field>
+        <field name="categ_id" ref="product_category_medicines"/>
+        <field name="type">consu</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="list_price">70.0</field>
+        <field name="standard_price">45.0</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">True</field>
+    </record>
+
+    <record id="product_medicine_vitamin" model="product.template">
+        <field name="name">Vitamin Supplement</field>
+        <field name="default_code">MED-VITA</field>
+        <field name="categ_id" ref="product_category_medicines"/>
+        <field name="type">consu</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="list_price">200.0</field>
+        <field name="standard_price">140.0</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">True</field>
+    </record>
+
+    <record id="product_service_general_consultation" model="product.template">
+        <field name="name">General Consultation</field>
+        <field name="default_code">SRV-GEN</field>
+        <field name="categ_id" ref="product_category_medical_services"/>
+        <field name="type">service</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="list_price">1500.0</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+    </record>
+
+    <record id="product_service_specialist_consultation" model="product.template">
+        <field name="name">Specialist Consultation</field>
+        <field name="default_code">SRV-SPEC</field>
+        <field name="categ_id" ref="product_category_medical_services"/>
+        <field name="type">service</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="list_price">2500.0</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+    </record>
+
+    <record id="product_service_followup" model="product.template">
+        <field name="name">Follow-up Consultation</field>
+        <field name="default_code">SRV-FOLLOW</field>
+        <field name="categ_id" ref="product_category_medical_services"/>
+        <field name="type">service</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="list_price">1000.0</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+    </record>
+
+    <record id="product_service_medical_checkup" model="product.template">
+        <field name="name">Medical Checkup</field>
+        <field name="default_code">SRV-CHECK</field>
+        <field name="categ_id" ref="product_category_medical_services"/>
+        <field name="type">service</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="list_price">2000.0</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+    </record>
+
+    <record id="product_service_laboratory" model="product.template">
+        <field name="name">Laboratory Service</field>
+        <field name="default_code">SRV-LAB</field>
+        <field name="categ_id" ref="product_category_medical_services"/>
+        <field name="type">service</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="list_price">1800.0</field>
+        <field name="sale_ok">True</field>
+        <field name="purchase_ok">False</field>
+    </record>
+
+</odoo>

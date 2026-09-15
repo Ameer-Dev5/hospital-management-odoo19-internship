@@ -11,6 +11,7 @@
         "website",
         "portal",
         "product",
+        'sale',
     ],
     "data": [
         "security/hospital_groups.xml",
@@ -31,6 +32,7 @@
         "views/website_patient_templates.xml",
         "views/website_appointment_templates.xml",
         "views/portal_templates.xml",
+        'views/sales_integration_views.xml',
         "views/website_menu.xml",
 
         "data/patient_cron.xml",

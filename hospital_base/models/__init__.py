@@ -5,3 +5,4 @@ from . import prescription
 from . import consultation
 from . import billing
 from . import sales_integration
+from . import accounting_integration

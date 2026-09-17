@@ -20,6 +20,7 @@
         "security/hospital_rules.xml",
 
         "data/product_data.xml",
+        "data/hospital_demo_data.xml",
 
         "views/patient_views.xml",
         "views/doctor_views.xml",

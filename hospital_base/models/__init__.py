@@ -6,3 +6,4 @@ from . import consultation
 from . import billing
 from . import sales_integration
 from . import accounting_integration
+from . import multi_company

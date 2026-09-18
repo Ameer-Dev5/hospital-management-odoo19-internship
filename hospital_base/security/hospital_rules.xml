@@ -21,4 +21,28 @@
         </field>
     </record>
 
+    <record id="rule_hospital_patient_multi_company" model="ir.rule">
+        <field name="name">Hospital Patient: Multi-company</field>
+        <field name="model_id" ref="model_hospital_patient"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_hospital_doctor_multi_company" model="ir.rule">
+        <field name="name">Hospital Doctor: Multi-company</field>
+        <field name="model_id" ref="model_hospital_doctor"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_hospital_appointment_multi_company" model="ir.rule">
+        <field name="name">Hospital Appointment: Multi-company</field>
+        <field name="model_id" ref="model_hospital_appointment"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="rule_hospital_consultation_multi_company" model="ir.rule">
+        <field name="name">Hospital Consultation: Multi-company</field>
+        <field name="model_id" ref="model_hospital_consultation"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
 </odoo>

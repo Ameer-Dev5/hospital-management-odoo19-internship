@@ -32,6 +32,12 @@
                         <field name="doctor_id"/>
                         <field name="service_product_id"/>
                         <field name="consultation_date"/>
+                        <field name="company_id"/>
+                        <field name="service_amount"/>
+                        <field name="currency_id"/>
+                        <field name="company_currency_id"/>
+                        <field name="conversion_date"/>
+                        <field name="company_amount"/>
                     </group>
 
                     <group>

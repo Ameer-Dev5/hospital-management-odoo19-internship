@@ -4,6 +4,7 @@ from odoo.exceptions import ValidationError
 
 class HospitalAppointment(models.Model):
     _name = 'hospital.appointment'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Hospital Appointment'
     _order = 'appointment_date desc'
 
@@ -33,6 +34,29 @@ class HospitalAppointment(models.Model):
         required=True,
     )
 
+    appointment_type = fields.Selection(
+        [
+            ('consultation', 'Consultation'),
+            ('checkup', 'Checkup'),
+            ('follow_up', 'Follow-up'),
+            ('emergency', 'Emergency'),
+        ],
+        string='Appointment Type',
+        required=True,
+        default='consultation',
+    )
+
+    priority = fields.Selection(
+        [
+            ('0', 'Normal'),
+            ('1', 'Low'),
+            ('2', 'High'),
+            ('3', 'Very High'),
+        ],
+        string='Priority',
+        default='0',
+    )
+
     state = fields.Selection(
         [
             ('draft', 'Draft'),
@@ -43,6 +67,7 @@ class HospitalAppointment(models.Model):
         string='Status',
         default='draft',
         required=True,
+        tracking=True,
     )
 
     notes = fields.Text(string='Notes')

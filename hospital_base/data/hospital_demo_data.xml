@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="day28_demo_patient_001" model="hospital.patient">
+            <field name="name">Demo Patient 01</field>
+            <field name="ref">DEMO-001</field>
+            <field name="dob">1990-01-15</field>
+            <field name="gender">male</field>
+            <field name="phone">03001111111</field>
+            <field name="email">demo.patient01@example.com</field>
+            <field name="address">Bhakkar</field>
+        </record>
+        <record id="day28_demo_patient_002" model="hospital.patient">
+            <field name="name">Demo Patient 02</field>
+            <field name="ref">DEMO-002</field>
+            <field name="dob">1995-06-20</field>
+            <field name="gender">female</field>
+            <field name="phone">03002222222</field>
+            <field name="email">demo.patient02@example.com</field>
+            <field name="address">Lahore</field>
+        </record>
+        <record id="day28_demo_patient_003" model="hospital.patient">
+            <field name="name">Demo Patient 03</field>
+            <field name="ref">DEMO-003</field>
+            <field name="dob">1985-11-08</field>
+            <field name="gender">male</field>
+            <field name="phone">03003333333</field>
+            <field name="email">demo.patient03@example.com</field>
+            <field name="address">Multan</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hospital_patient_sales_inherit" model="ir.ui.view">
+        <field name="name">hospital.patient.sales.inherit</field>
+        <field name="model">hospital.patient</field>
+        <field name="inherit_id" ref="hospital_base.view_hospital_patient_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                        name="action_view_sales_orders"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-shopping-cart">
+                    <field
+                            name="sale_order_count"
+                            widget="statinfo"
+                            string="Sales Orders"
+                    />
+                </button>
+            </xpath>
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="partner_id"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="view_hospital_consultation_sales_inherit" model="ir.ui.view">
+        <field name="name">hospital.consultation.sales.inherit</field>
+        <field name="model">hospital.consultation</field>
+        <field name="inherit_id" ref="hospital_base.view_hospital_consultation_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//form/sheet" position="before">
+                <header>
+                    <button
+                            name="action_create_quotation"
+                            type="object"
+                            string="Generate Quotation"
+                            class="btn-primary"
+                    />
+                </header>
+            </xpath>
+
+            <xpath expr="//form/sheet/group[1]" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button
+                            name="action_view_quotations"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-file-text-o">
+                        <field
+                                name="quotation_count"
+                                widget="statinfo"
+                                string="Quotations"
+                        />
+                    </button>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="view_sale_order_hospital_inherit" model="ir.ui.view">
+        <field name="name">sale.order.hospital.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="hospital_patient_id"/>
+                <field name="hospital_consultation_id"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hospital_consultation_list" model="ir.ui.view">
+        <field name="name">hospital.consultation.list</field>
+        <field name="model">hospital.consultation</field>
+        <field name="arch" type="xml">
+            <list string="Consultations">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="service_product_id"/>
+                <field name="consultation_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hospital_consultation_form" model="ir.ui.view">
+        <field name="name">hospital.consultation.form</field>
+        <field name="model">hospital.consultation</field>
+        <field name="arch" type="xml">
+            <form string="Consultation">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <field name="patient_id"/>
+                        <field name="doctor_id"/>
+                        <field name="service_product_id"/>
+                        <field name="consultation_date"/>
+                        <field name="company_id"/>
+                        <field name="service_amount"/>
+                        <field name="currency_id"/>
+                        <field name="company_currency_id"/>
+                        <field name="conversion_date"/>
+                        <field name="company_amount"/>
+                    </group>
+
+                    <group>
+                        <field name="findings"/>
+                        <field name="plan"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hospital_consultation" model="ir.actions.act_window">
+        <field name="name">Consultations</field>
+        <field name="res_model">hospital.consultation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

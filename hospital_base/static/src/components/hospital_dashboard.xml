@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="hospital_base.HospitalDashboard">
+        <div class="container-fluid py-4">
+            <div class="mb-4">
+                <h1>Hospital Management System</h1>
+                <p class="text-muted">Hospital overview dashboard</p>
+            </div>
+
+            <t t-if="state.loading">
+                <div class="alert alert-info">
+                    Loading dashboard...
+                </div>
+            </t>
+
+            <t t-elif="state.error">
+                <div class="alert alert-danger">
+                    Unable to load dashboard data.
+                </div>
+            </t>
+
+            <t t-else="">
+                <div class="row g-4">
+                    <div class="col-12 col-md-6">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Patients</h5>
+                                <h2 class="display-6">
+                                    <t t-esc="state.patients"/>
+                                </h2>
+                                <button
+                                        type="button"
+                                        class="btn btn-primary mt-3"
+                                        t-on-click="viewPatients"
+                                >
+                                    View Patients
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Appointments</h5>
+                                <h2 class="display-6">
+                                    <t t-esc="state.appointments"/>
+                                </h2>
+                                <button
+                                        type="button"
+                                        class="btn btn-primary mt-3"
+                                        t-on-click="viewAppointments"
+                                >
+                                    View Appointments
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+
+</templates>

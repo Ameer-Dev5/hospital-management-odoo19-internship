@@ -3,7 +3,7 @@
     "version": "19.0.1.0.0",
     "summary": "Basic hospital management module",
     "category": "Healthcare",
-    "author": "NerithonX Technologies",
+    "author": "Ameer Nawaz",
     "license": "LGPL-3",
     "depends": [
         "base",
@@ -38,12 +38,21 @@
         'views/sales_integration_views.xml',
         "views/accounting_integration_views.xml",
         "views/website_menu.xml",
+        "views/hospital_dashboard_views.xml",
 
         "data/patient_cron.xml",
         "data/patient_email_template.xml",
         "data/appointment_email_template.xml",
         "data/sequence_pt.xml",
     ],
+
+    "assets": {
+        "web.assets_backend": [
+            "hospital_base/static/src/components/hospital_dashboard.js",
+            "hospital_base/static/src/components/hospital_dashboard.xml",
+        ],
+    },
+
     "installable": True,
     "application": True,
 }

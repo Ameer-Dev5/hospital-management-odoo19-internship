@@ -63,6 +63,14 @@ class HospitalPatient(models.Model):
     address = fields.Char(
         string='Address',
     )
+
+    blood_group = fields.Selection([
+        ("a+", "A+"), ("a-", "A-"),
+        ("b+", "B+"), ("b-", "B-"),
+        ("o+", "O+"), ("o-", "O-"),
+        ("ab+", "AB+"), ("ab-", "AB-"),
+    ], string="Blood Group")
+
     registration_date = fields.Date(
         string='Registration Date',
         default=fields.Date.context_today,

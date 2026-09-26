@@ -1,6 +1,6 @@
 {
     "name": "Hospital Management",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "summary": "Basic hospital management module",
     "category": "Healthcare",
     "author": "Ameer Nawaz",
@@ -39,6 +39,7 @@
         "views/accounting_integration_views.xml",
         "views/website_menu.xml",
         "views/hospital_dashboard_views.xml",
+        "views/patient_upgrade_views.xml",
 
         "data/patient_cron.xml",
         "data/patient_email_template.xml",

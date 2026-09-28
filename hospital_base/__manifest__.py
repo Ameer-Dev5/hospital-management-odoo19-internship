@@ -1,7 +1,7 @@
 {
     "name": "Hospital Management",
-    "version": "19.0.1.0.0",
-    "summary": "Basic hospital management module",
+    "version": "19.0.1.1.0",
+    "summary": "Patients, doctors, appointments, consultations, prescriptions and billing",
     "category": "Healthcare",
     "author": "Ameer Nawaz",
     "license": "LGPL-3",
@@ -11,7 +11,7 @@
         "website",
         "portal",
         "product",
-        'sale',
+        "sale",
         "account",
     ],
     "data": [
@@ -21,7 +21,6 @@
 
         "data/product_data.xml",
         "data/urdu_language.xml",
-        "data/hospital_demo_data.xml",
 
         "views/patient_views.xml",
         "views/doctor_views.xml",
@@ -35,24 +34,26 @@
         "views/website_patient_templates.xml",
         "views/website_appointment_templates.xml",
         "views/portal_templates.xml",
-        'views/sales_integration_views.xml',
+        "views/sales_integration_views.xml",
         "views/accounting_integration_views.xml",
         "views/website_menu.xml",
         "views/hospital_dashboard_views.xml",
+        "views/patient_upgrade_views.xml",
 
         "data/patient_cron.xml",
         "data/patient_email_template.xml",
         "data/appointment_email_template.xml",
         "data/sequence_pt.xml",
     ],
-
+    "demo": [
+        "data/hospital_demo_data.xml",
+    ],
     "assets": {
         "web.assets_backend": [
             "hospital_base/static/src/components/hospital_dashboard.js",
             "hospital_base/static/src/components/hospital_dashboard.xml",
         ],
     },
-
     "installable": True,
     "application": True,
 }

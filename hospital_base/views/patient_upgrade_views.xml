@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hospital_patient_form_inherit_blood_group" model="ir.ui.view">
+        <field name="name">hospital.patient.form.inherit.blood.group</field>
+        <field name="model">hospital.patient</field>
+        <field name="inherit_id" ref="hospital_base.view_hospital_patient_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='doctor_specialization']" position="after">
+                <field name="blood_group"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

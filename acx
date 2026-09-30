@@ -1,0 +1,46 @@
+                                           Table "public.res_groups"
+      Column      |            Type             | Collation | Nullable |                Default                 
+------------------+-----------------------------+-----------+----------+----------------------------------------
+ id               | integer                     |           | not null | nextval('res_groups_id_seq'::regclass)
+ name             | jsonb                       |           | not null | 
+ sequence         | integer                     |           |          | 
+ privilege_id     | integer                     |           |          | 
+ create_uid       | integer                     |           |          | 
+ write_uid        | integer                     |           |          | 
+ comment          | jsonb                       |           |          | 
+ share            | boolean                     |           |          | 
+ create_date      | timestamp without time zone |           |          | 
+ write_date       | timestamp without time zone |           |          | 
+ api_key_duration | double precision            |           |          | 
+Indexes:
+    "res_groups_pkey" PRIMARY KEY, btree (id)
+    "res_groups__privilege_id_index" btree (privilege_id)
+    "res_groups_name_uniq" UNIQUE CONSTRAINT, btree (privilege_id, name)
+Check constraints:
+    "res_groups_check_api_key_duration" CHECK (api_key_duration >= 0::double precision)
+Foreign-key constraints:
+    "res_groups_create_uid_fkey" FOREIGN KEY (create_uid) REFERENCES res_users(id) ON DELETE SET NULL
+    "res_groups_privilege_id_fkey" FOREIGN KEY (privilege_id) REFERENCES res_groups_privilege(id) ON DELETE SET NULL
+    "res_groups_write_uid_fkey" FOREIGN KEY (write_uid) REFERENCES res_users(id) ON DELETE SET NULL
+Referenced by:
+    TABLE "digest_tip" CONSTRAINT "digest_tip_group_id_fkey" FOREIGN KEY (group_id) REFERENCES res_groups(id) ON DELETE SET NULL
+    TABLE "discuss_channel" CONSTRAINT "discuss_channel_group_public_id_fkey" FOREIGN KEY (group_public_id) REFERENCES res_groups(id) ON DELETE SET NULL
+    TABLE "discuss_channel_res_groups_rel" CONSTRAINT "discuss_channel_res_groups_rel_res_groups_id_fkey" FOREIGN KEY (res_groups_id) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "ir_act_server_group_rel" CONSTRAINT "ir_act_server_group_rel_gid_fkey" FOREIGN KEY (gid) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "ir_act_window_group_rel" CONSTRAINT "ir_act_window_group_rel_gid_fkey" FOREIGN KEY (gid) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "ir_embedded_actions_res_groups_rel" CONSTRAINT "ir_embedded_actions_res_groups_rel_res_groups_id_fkey" FOREIGN KEY (res_groups_id) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "ir_model_access" CONSTRAINT "ir_model_access_group_id_fkey" FOREIGN KEY (group_id) REFERENCES res_groups(id) ON DELETE RESTRICT
+    TABLE "ir_model_fields_group_rel" CONSTRAINT "ir_model_fields_group_rel_group_id_fkey" FOREIGN KEY (group_id) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "ir_ui_menu_group_rel" CONSTRAINT "ir_ui_menu_group_rel_gid_fkey" FOREIGN KEY (gid) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "ir_ui_view_group_rel" CONSTRAINT "ir_ui_view_group_rel_group_id_fkey" FOREIGN KEY (group_id) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "mail_canned_response_res_groups_rel" CONSTRAINT "mail_canned_response_res_groups_rel_res_groups_id_fkey" FOREIGN KEY (res_groups_id) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "pos_config" CONSTRAINT "pos_config_group_pos_manager_id_fkey" FOREIGN KEY (group_pos_manager_id) REFERENCES res_groups(id) ON DELETE SET NULL
+    TABLE "pos_config" CONSTRAINT "pos_config_group_pos_user_id_fkey" FOREIGN KEY (group_pos_user_id) REFERENCES res_groups(id) ON DELETE SET NULL
+    TABLE "res_groups_implied_rel" CONSTRAINT "res_groups_implied_rel_gid_fkey" FOREIGN KEY (gid) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "res_groups_implied_rel" CONSTRAINT "res_groups_implied_rel_hid_fkey" FOREIGN KEY (hid) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "res_groups_report_rel" CONSTRAINT "res_groups_report_rel_gid_fkey" FOREIGN KEY (gid) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "res_groups_spreadsheet_dashboard_rel" CONSTRAINT "res_groups_spreadsheet_dashboard_rel_res_groups_id_fkey" FOREIGN KEY (res_groups_id) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "res_groups_users_rel" CONSTRAINT "res_groups_users_rel_gid_fkey" FOREIGN KEY (gid) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "res_groups_website_menu_rel" CONSTRAINT "res_groups_website_menu_rel_res_groups_id_fkey" FOREIGN KEY (res_groups_id) REFERENCES res_groups(id) ON DELETE CASCADE
+    TABLE "rule_group_rel" CONSTRAINT "rule_group_rel_group_id_fkey" FOREIGN KEY (group_id) REFERENCES res_groups(id) ON DELETE RESTRICT
+

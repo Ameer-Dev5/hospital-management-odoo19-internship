@@ -39,7 +39,18 @@ Command line:
 Open Hospital Management > Dashboard for totals. Create patients and doctors, book appointments, then record consultations, prescriptions and billing from the same menu. Use the buttons on the patient and consultation forms to create quotations and invoices.
 
 ## Security
-Access is controlled by the Hospital groups, model access rules (`security/ir.model.access.csv`) and record rules (`security/hospital_rules.xml`). The dashboard reads data as the logged-in user, so it only shows records that user can access.
+
+## User Roles
+- **Hospital User** — day to day data entry: patients, appointments, consultations
+- **Hospital Doctor** — same access as Hospital User, scoped to their own patients/appointments where record rules apply
+- **Hospital Manager** — full access including billing, invoicing, and configuration
+- **Portal User** — external patient; can view their own appointments only at `/my/appointments`, has no access to the backend or to other patients' data
+
+## Main Workflows
+1. Patient registration → Appointment → Consultation → Prescription → Billing
+2. Consultation → Quotation (Sales) → Sale Order → Invoice (Accounting) → Payment
+3. Website visitor → Appointment booking (requires login) → Confirmation email
+4. Portal patient → `/my/appointments` → view own appointment details only
 
 ## Testing
 

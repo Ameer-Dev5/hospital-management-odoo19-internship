@@ -1,6 +1,7 @@
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase, tagged
 from datetime import date, timedelta
+from odoo import fields
 
 
 @tagged("post_install", "-at_install")
@@ -31,7 +32,9 @@ class TestHospitalPatient(TransactionCase):
         appointment = self.Appointment.create({
             "patient_id": self.patient.id,
             "doctor_id": self.doctor.id,
-            "appointment_date": "2026-10-01 10:00:00",
+            'appointment_date': fields.Datetime.to_string(
+                fields.Datetime.now() + timedelta(days=1)
+            ),
         })
         self.assertTrue(appointment)
         self.assertEqual(appointment.patient_id, self.patient)
@@ -49,7 +52,9 @@ class TestHospitalPatient(TransactionCase):
         appointment = self.Appointment.create({
             "patient_id": self.patient.id,
             "doctor_id": self.doctor.id,
-            "appointment_date": "2026-10-01 10:00:00",
+            'appointment_date': fields.Datetime.to_string(
+                fields.Datetime.now() + timedelta(days=1)
+            ),
         })
         appointment.action_confirm()
         self.assertEqual(appointment.state, "confirmed")
